@@ -1,0 +1,43 @@
+targets:
+  glog:
+    desc: "logs all git commits"
+
+  gsave:
+    exec_dir: "."
+    vars:
+      - name: m
+        env_var: "MESSAGE"
+
+  gsave-new:
+    desc: "commit changes and push a new branch"
+    vars:
+      - name: m
+        desc: "Commit message"
+        env_var: "MESSAGE"
+      - name: b
+        desc: "Name of the new branch"
+        env_var: "NEW_BRANCH"
+
+  gnew-branch:
+    desc: "create a new branch from an existing branch"
+    vars:
+      - name: new
+        desc: "Name of the new branch"
+        env_var: "NEW_BRANCH"
+      - name: source
+        desc: "Name of the source branch"
+        env_var: "SOURCE_BRANCH"
+        default: "main"
+
+  drestart:
+
+  conv:
+    vars:
+      - name: name
+        env_var: "NAME"
+
+  work:
+    vars:
+      - name: proj
+        env_var: "PROJECT"
+        default: nandev-backend
