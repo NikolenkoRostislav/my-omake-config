@@ -1,12 +1,17 @@
 targets:
   glog:
     desc: "logs all git commits"
+    cmd: git log --oneline --all --graph
 
   gsave:
     exec_dir: "."
     vars:
       - name: m
         env_var: "MESSAGE"
+    cmd: |
+      git add .
+      git commit -m "$(MESSAGE)"
+      git push
 
   gsave-new:
     desc: "commit changes and push a new branch"
@@ -17,6 +22,10 @@ targets:
       - name: b
         desc: "Name of the new branch"
         env_var: "NEW_BRANCH"
+    cmd: |
+      git add .
+      git commit -m "$(MESSAGE)"
+      git push -u origin "$(NEW_BRANCH)"
 
   gnew-branch:
     desc: "create a new branch from an existing branch"
@@ -28,16 +37,28 @@ targets:
         desc: "Name of the source branch"
         env_var: "SOURCE_BRANCH"
         default: "main"
+    cmd: |
+      git switch "$(SOURCE_BRANCH)"
+      git pull
+      git switch -c "$(NEW_BRANCH)"
 
   drestart:
+    cmd: |
+      docker compose down
+      docker compose up --build -d
 
   conv:
     vars:
       - name: name
         env_var: "NAME"
+    cmd: soffice --headless --convert-to pdf "$(NAME)"
 
   work:
     vars:
       - name: proj
         env_var: "PROJECT"
         default: nandev-backend
+    cmd: |
+      cd /d D:\Work && \
+      cd "$(PROJECT)" && \
+      code .
